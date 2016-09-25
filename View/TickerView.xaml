@@ -1,0 +1,43 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfDumper.View"
+        xmlns:Model="clr-namespace:WpfDumper.Model" x:Class="WpfDumper.View.TickerView"
+        mc:Ignorable="d"
+        Title="TickerView" Height="300" Width="300" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="tickViewSource" Source="{Binding Ticks}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource tickViewSource}">
+        <DataGrid x:Name="tickDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" SelectionChanged="tickDataGrid_SelectionChanged">
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding RowBrush}"/>
+                </Style>
+            </DataGrid.RowStyle>-->
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="symbolColumn" Binding="{Binding Symbol, Mode=TwoWay}" Header="Symbol" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tickValueColumn" 
+                                    Binding="{Binding TickValue, Mode=TwoWay}" 
+                                    Header="Tick Value" 
+                                    Width="SizeToHeader">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding TickBrush}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn x:Name="timeStampColumn" Binding="{Binding TimeStamp, Mode=TwoWay}" Header="Time Stamp" Width="SizeToHeader"/>
+                <!--<DataGridTemplateColumn x:Name="timeStampColumn" Header="Time Stamp" Width="SizeToHeader">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding TimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
