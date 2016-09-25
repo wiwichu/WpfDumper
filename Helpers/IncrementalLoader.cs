@@ -8,5 +8,6 @@ namespace WpfDumper.Helpers
 {
     class IncrementalLoader
     {
+
     }
 }
