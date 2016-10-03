@@ -7,7 +7,7 @@ using WpfDumper.Helpers;
 
 namespace WpfDumper.ViewModel
 {
-    class ValidationViewModel :NotifyPropertyChanged
+    class TradeViewModel : ValidatorBase
     {
 
     }

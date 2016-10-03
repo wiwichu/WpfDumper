@@ -26,8 +26,7 @@ namespace WpfDumper.Model
             }
             set
             {
-                symbol = value;
-                OnPropertyChanged();
+                SetProperty(ref symbol,value);
             }
         }
         private DateTime timeStamp;
@@ -39,8 +38,8 @@ namespace WpfDumper.Model
             }
             set
             {
-                timeStamp = value;
-                OnPropertyChanged();
+                
+                SetProperty(ref timeStamp, value);
             }
         }
         private decimal tickValue;
@@ -67,8 +66,7 @@ namespace WpfDumper.Model
                         tickColor = TICKCOLOR.NONE;
                     }
                 }
-                tickValue = value;
-                OnPropertyChanged();
+                SetProperty(ref tickValue,value);
                 //OnPropertyChanged("RowBrush");
                 OnPropertyChanged("TickBrush");
                 //Task.Run(async () =>

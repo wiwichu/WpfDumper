@@ -33,6 +33,14 @@
                 Command="{Binding TickerCommand}"/>
         <Button x:Name="btnValidation" 
             Content="Valdations" 
-            Margin="10" Grid.Row="1" Click="btnValidation_Click"/>
+            Margin="10" 
+                Grid.Row="1" 
+                Command="{Binding TradeCommand}"/>
+        <Button x:Name="btnEventHang" 
+            Content="Event Hang 1min" 
+            Margin="10" Grid.Row="1" Grid.Column="1" Click="btnEventHang_Click"/>
+        <Button x:Name="btnLockHang" 
+            Content="Lock Hang 1min" 
+            Margin="10,10,11,10" Grid.Row="1" Grid.Column="2" Click="btnLockHang_Click" />
     </Grid>
 </Window>

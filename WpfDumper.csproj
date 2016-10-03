@@ -91,17 +91,18 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\NotifyPropertyChanged.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\ValidatorBase.cs" />
     <Compile Include="Model\Tick.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\TickerService.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TickerViewModel.cs" />
-    <Compile Include="ViewModel\ValidationViewModel.cs" />
+    <Compile Include="ViewModel\TradeViewModel.cs" />
     <Compile Include="View\TickerView.xaml.cs">
       <DependentUpon>TickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ValidationView.xaml.cs">
-      <DependentUpon>ValidationView.xaml</DependentUpon>
+    <Compile Include="View\TradeView.xaml.cs">
+      <DependentUpon>TradeView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,7 +121,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ValidationView.xaml">
+    <Page Include="View\TradeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,8 @@ namespace WpfDumper.Services
     {
         public enum DIALOG
         {
-            TICKERVIEW
+            TICKERVIEW,
+            TRADEVIEW
         }
 
         private static ConcurrentDictionary<DIALOG, Window> dialogMap = new ConcurrentDictionary<DIALOG, Window>();
@@ -34,7 +35,15 @@ namespace WpfDumper.Services
                         view.DataContext = viewModel;
                     }
                     break;
+                case DIALOG.TRADEVIEW:
+                    view = new TradeView();
+                    if (viewModel != null)
+                    {
+                        view.DataContext = viewModel;
+                    }
+                    break;
             }
+
             view.ShowDialog();
         }
         public void CloseDialog()

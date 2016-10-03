@@ -82,6 +82,31 @@ namespace WpfDumper
         {
 
         }
+
+        private void btnEventHang_Click(object sender, RoutedEventArgs e)
+        {
+            ManualResetEvent mre = new ManualResetEvent(false);
+            QueueUserWorkItem(new WaitCallback((a) =>
+            {
+                mre.WaitOne(60000);
+            }));
+            mre.WaitOne(60000);
+        }
+        static object locker = new object();
+
+        private void btnLockHang_Click(object sender, RoutedEventArgs e)
+        {
+            //object locker = new object();
+            QueueUserWorkItem(new WaitCallback((a) =>
+            {
+                lock (locker)
+                {
+                    Task.Delay(60000).Wait();
+                }
+            }));
+            Task.Delay(100).Wait();
+            lock (locker) { }
+        }
     }
     class MyObserver : IObserver<int>
     {

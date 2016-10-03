@@ -17,9 +17,9 @@ namespace WpfDumper.View
     /// <summary>
     /// Interaction logic for ValidationView.xaml
     /// </summary>
-    public partial class ValidationView : Window
+    public partial class TradeView : Window
     {
-        public ValidationView()
+        public TradeView()
         {
             InitializeComponent();
         }

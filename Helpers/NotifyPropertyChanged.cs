@@ -21,7 +21,13 @@ namespace WpfDumper.Helpers
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        protected void OnPropertyChanged([CallerMemberName] string caller = "")
+        protected virtual void SetProperty<T>(ref T member,T val,[CallerMemberName] string caller = "")
+        {
+            if (object.Equals(member, val)) return;
+            member = val;
+            PropertyChanged(this, new PropertyChangedEventArgs(caller));
+        }
+        protected virtual void OnPropertyChanged([CallerMemberName] string caller = "")
         {
             PropertyChanged(this, new PropertyChangedEventArgs(caller));
         }

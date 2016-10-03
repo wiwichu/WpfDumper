@@ -19,6 +19,17 @@ namespace WpfDumper.ViewModel
         private void LoadCommands()
         {
             TickerCommand = new RelayCommand(OpenTicker, CanOpenTicker);
+            TradeCommand = new RelayCommand(OpenTrade, CanOpenTrade);
+        }
+
+        private bool CanOpenTrade(object obj)
+        {
+            return true;
+        }
+
+        private void OpenTrade(object obj)
+        {
+            dialogService.ShowDialog(DialogService.DIALOG.TRADEVIEW, new TradeViewModel());
         }
 
         private bool CanOpenTicker(object obj)
@@ -33,6 +44,11 @@ namespace WpfDumper.ViewModel
 
         DialogService dialogService = new DialogService();
         public ICommand TickerCommand
+        {
+            get;
+            set;
+        }
+        public ICommand TradeCommand
         {
             get;
             set;
