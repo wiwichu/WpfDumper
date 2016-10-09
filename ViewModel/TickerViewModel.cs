@@ -16,15 +16,16 @@ using System.Reactive.PlatformServices;
 
 namespace WpfDumper.ViewModel
 {
-    class TickerViewModel : NotifyPropertyChanged
+    class TickerViewModel : ValidatorBase
     {
         private static ConcurrentDictionary<string, Tick> ticks = new ConcurrentDictionary<string, Tick>();
         DateTime lastTickUpdate = DateTime.UtcNow;
         private Timer tickTimer = null;
         private void tickTimerCallback(object state)
         {
-            if (DateTime.Now.Subtract(lastTickUpdate).Milliseconds < 75)
+            if ((DateTime.UtcNow.Subtract(lastTickUpdate)).TotalMilliseconds > 1000)
             {
+                lastTickUpdate = DateTime.UtcNow;
                 OnPropertyChanged("Ticks");
             }
         }
@@ -73,7 +74,6 @@ namespace WpfDumper.ViewModel
                 oldTick.TimeStamp = tick.TimeStamp;
                 //ticks.TryUpdate(tick.Symbol, tick, tick);
             }
-            lastTickUpdate = tick.TimeStamp;
         }
 
         public ObservableCollection<Tick> Ticks

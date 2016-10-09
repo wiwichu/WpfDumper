@@ -4,14 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfDumper.View"
+        xmlns:helper="clr-namespace:WpfDumper.Helpers"
         xmlns:Model="clr-namespace:WpfDumper.Model" x:Class="WpfDumper.View.TickerView"
         mc:Ignorable="d"
         Title="TickerView" Height="300" Width="300" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="tickViewSource" Source="{Binding Ticks}"/>
+        <helper:TickToBrushConverter x:Key="TickToBrushConverter" />
     </Window.Resources>
     <Grid DataContext="{StaticResource tickViewSource}">
-        <DataGrid x:Name="tickDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" SelectionChanged="tickDataGrid_SelectionChanged">
+        <DataGrid x:Name="tickDataGrid" 
+                  AutoGenerateColumns="False" 
+                  EnableRowVirtualization="True" 
+                  ItemsSource="{Binding}" 
+                  RowDetailsVisibilityMode="VisibleWhenSelected" 
+                  SelectionChanged="tickDataGrid_SelectionChanged">
             <!--<DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{Binding RowBrush}"/>
@@ -25,7 +32,7 @@
                                     Width="SizeToHeader">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Background" Value="{Binding TickBrush}"/>
+                            <Setter Property="Background" Value="{Binding TickDirection, Converter={StaticResource TickToBrushConverter}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

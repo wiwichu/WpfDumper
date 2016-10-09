@@ -11,23 +11,62 @@ using System.Windows.Controls;
 
 namespace WpfDumper.Helpers
 {
-    class ValidatorBase : NotifyPropertyChanged, INotifyDataErrorInfo
+    public class ValidatorBase : NotifyPropertyChanged, INotifyDataErrorInfo
     {
-        private ConcurrentDictionary<string, List<string>> errors = new ConcurrentDictionary<string, List<string>>();
+        private ConcurrentDictionary<string, List<string>> propertyErrors = new ConcurrentDictionary<string, List<string>>();
+        protected bool TryAddPropertyError(List<string> errorList, [CallerMemberName] string propertyName = "")
+        {
+            bool result = false;
+            List<string> currentList = null;
+            if (propertyErrors.TryGetValue(propertyName, out currentList))
+            {
+                List<string> newList = new List<string>();
+                if (currentList!=null)
+                {
+                    newList.AddRange(currentList);
+                }
+                newList.AddRange(errorList);
+                result = propertyErrors.TryUpdate(propertyName, currentList, newList);
+            } 
+            else
+            {
+                result = propertyErrors.TryAdd(propertyName, errorList);
+            }
+            if (result)
+            {
+                ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+            }
+            return result;
+        }
         public bool HasErrors
         {
             get
             {
-                return errors.Count > 0;
+                return PropertyErrorsPresent();
             }
         }
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        private bool PropertyErrorsPresent()
+        {
+            return propertyErrors.Values.Any((v) => v != null);
+            //bool result = false;
+            //foreach (var key in errors.Keys)
+            //{
+            //    if(errors[key] != null)
+            //    {
+            //        result = true;
+            //        break;
+            //    }
+            //}
+            //return result;
+        }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
 
         public IEnumerable GetErrors(string propertyName)
         {
             List<string> result = null;
-            errors.TryGetValue(propertyName, out result);
+            propertyErrors.TryGetValue(propertyName, out result);
             return result;
         }
         protected override void SetProperty<T>(ref T member, T val, [CallerMemberName] string caller = "")
@@ -45,12 +84,12 @@ namespace WpfDumper.Helpers
             System.ComponentModel.DataAnnotations.Validator.TryValidateProperty(val, context, results);
             if (results.Any())
             {
-                errors[caller] = results.Select(c => c.ErrorMessage).ToList();
+                propertyErrors[caller] = results.Select(c => c.ErrorMessage).ToList();
             }
             else
             {
                 List<string> removed = null;
-                errors.TryRemove(caller, out removed);
+                propertyErrors.TryRemove(caller, out removed);
             }
             ErrorsChanged(this, new DataErrorsChangedEventArgs(caller));
         }

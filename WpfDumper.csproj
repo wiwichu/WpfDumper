@@ -92,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\NotifyPropertyChanged.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\TickToBrushConverter.cs" />
     <Compile Include="Helpers\ValidatorBase.cs" />
     <Compile Include="Model\Tick.cs" />
     <Compile Include="Services\DialogService.cs" />
@@ -147,6 +148,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\WpfDumper.Model.Tick.datasource" />
+    <None Include="Properties\DataSources\WpfDumper.ViewModel.TradeViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

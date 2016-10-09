@@ -35,7 +35,8 @@ namespace WpfDumper.Services
         }
         static private TimeSpan GetNextPriceDelay()
         {
-            return TimeSpan.FromSeconds(rand.Next(100) / 20.0);
+            //return TimeSpan.FromSeconds(rand.Next(100) / 20.0);
+            return new TimeSpan(0,0,0,0,10);
         }
         static private Tick GetNextTick(Tick currentTick)
         {

@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using WpfDumper.Helpers;
 
 namespace WpfDumper.Model
 {
-    public class Tick : NotifyPropertyChanged
+    public class Tick : ValidatorBase
     {
-        private enum TICKCOLOR
+        public enum TICKDIRECTION
         {
             NONE,
             UPTICK,
             DOWNTICK
         }
-        private TICKCOLOR tickColor = TICKCOLOR.NONE;
+        private TICKDIRECTION tickDirection = TICKDIRECTION.NONE;
         private string symbol;
         public string Symbol
         {
@@ -38,47 +39,51 @@ namespace WpfDumper.Model
             }
             set
             {
-                
-                SetProperty(ref timeStamp, value);
+                timeStamp = value;
             }
         }
+        public TICKDIRECTION TickDirection
+        {
+            get { return tickDirection; }
+            set
+            {
+                SetProperty(ref tickDirection, value);
+            }
+        }
+        private object refreshLock = new object();
         private decimal tickValue;
         public decimal TickValue
         {
             get
             {
-                return tickValue;
+                lock (refreshLock)
+                {
+                    return tickValue;
+                }
             }
             set
             {
-                if (tickValue != 0)
+                lock (refreshLock)
                 {
-                    if ((value - tickValue) > 0)
+                    if (tickValue != 0)
                     {
-                        tickColor = TICKCOLOR.UPTICK;
+                        if ((value - tickValue) > 0)
+                        {
+                            tickDirection = TICKDIRECTION.UPTICK;
+                        }
+                        else if ((value - tickValue) < 0)
+                        {
+                            tickDirection = TICKDIRECTION.DOWNTICK;
+                        }
+                        else
+                        {
+                            tickDirection = TICKDIRECTION.NONE;
+                        }
                     }
-                    else if ((value - tickValue) < 0)
-                    {
-                        tickColor = TICKCOLOR.DOWNTICK;
-                    }
-                    else
-                    {
-                        tickColor = TICKCOLOR.NONE;
-                    }
+                    tickValue = value;
+                    //SetProperty(ref tickValue, value);
+                    //OnPropertyChanged("TickDirection");
                 }
-                SetProperty(ref tickValue,value);
-                //OnPropertyChanged("RowBrush");
-                OnPropertyChanged("TickBrush");
-                //Task.Run(async () =>
-                //{
-                //    await Task.Delay(5000);
-                //    TICKCOLOR tcSave = tickColor;
-                //    tickColor = TICKCOLOR.NONE;
-                //    //OnPropertyChanged("RowBrush");
-                //    //await Task.Delay(100);
-                //    //tickColor = tcSave;
-                //    //OnPropertyChanged("TickBrush");
-                //});
             }
         }
         public Brush RowBrush
@@ -88,26 +93,15 @@ namespace WpfDumper.Model
                 return TickBrush;
             }
         }
+        private Brush tickBrush = Brushes.Transparent;
         public Brush TickBrush
         {
             get
             {
-                switch(tickColor)
+                lock (refreshLock)
                 {
-                    case TICKCOLOR.DOWNTICK:
-                        {
-                            return Brushes.Red;
-                        }
-                    case TICKCOLOR.UPTICK:
-                        {
-                            return Brushes.Green;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                        }
-                return Brushes.Transparent;
+                    return tickBrush;
+                }
             }
         }
     }
