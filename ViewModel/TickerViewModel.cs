@@ -23,7 +23,7 @@ namespace WpfDumper.ViewModel
         private Timer tickTimer = null;
         private void tickTimerCallback(object state)
         {
-            if ((DateTime.UtcNow.Subtract(lastTickUpdate)).TotalMilliseconds > 1000)
+            if ((DateTime.UtcNow.Subtract(lastTickUpdate)).TotalMilliseconds > refreshRate*1000)
             {
                 lastTickUpdate = DateTime.UtcNow;
                 OnPropertyChanged("Ticks");
@@ -81,6 +81,18 @@ namespace WpfDumper.ViewModel
             get
             {
                 return new ObservableCollection<Tick>(ticks.Values.OrderBy((t)=>t.Symbol));
+            }
+        }
+        private int refreshRate=1;
+        public int RefreshRate
+        {
+            get
+            {
+                return refreshRate;
+            }
+            set
+            {
+                SetProperty(ref refreshRate, value);
             }
         }
     }

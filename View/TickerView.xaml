@@ -13,7 +13,23 @@
         <helper:TickToBrushConverter x:Key="TickToBrushConverter" />
     </Window.Resources>
     <Grid DataContext="{StaticResource tickViewSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Refresh Rate:" Margin="5"/>
+            <Slider x:Name="refreshRateSlider" 
+                    Margin="5"
+                    Minimum="1"
+                    Maximum="10"
+                    Interval="1"
+                    Value="{Binding Path=DataContext.RefreshRate, Mode=TwoWay,
+                RelativeSource={RelativeSource AncestorType={x:Type Window}}
+                }"/>
+        </StackPanel>
         <DataGrid x:Name="tickDataGrid" 
+                  Grid.Row="1"
                   AutoGenerateColumns="False" 
                   EnableRowVirtualization="True" 
                   ItemsSource="{Binding}" 
