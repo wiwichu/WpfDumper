@@ -30,6 +30,8 @@ namespace WpfDumper.Services
                                             GetNextTick,
                                             p => p,
                                             _ => GetNextPriceDelay(),
+                                            //ThreadPoolScheduler.Instance
+                                            
                                             NewThreadScheduler.Default
                                             );
         }

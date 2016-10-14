@@ -45,7 +45,7 @@
     
     <Grid>
 
-        <Grid x:Name="grid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="grid1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFE4C3C3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -66,12 +66,12 @@
             <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
                 <TextBlock Text="Instrument: " HorizontalAlignment="Left" Width="70" Margin="5"/>
                 <TextBox Name="tbInstrument"  HorizontalAlignment="Stretch" Width="180" Margin="5" 
-                         Text="{Binding Instrument, ValidatesOnNotifyDataErrors=True}"/>
+                         Text="{Binding Instrument, ValidatesOnNotifyDataErrors=True}" Background="{x:Null}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
                 <TextBlock Text="Trade Date: " HorizontalAlignment="Left" Width="70" Margin="5"/>
                 <TextBox Name="tbTradeDate"  HorizontalAlignment="Stretch" Width="180" Margin="5" 
-                         Text="{Binding TradeDate, ValidatesOnNotifyDataErrors=True}"/>
+                         Text="{Binding TradeDate, ValidatesOnNotifyDataErrors=True}" BorderBrush="{x:Null}" Background="#FFF17171"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5">
                 <TextBlock Text="Value Date: " HorizontalAlignment="Left" Width="70" Margin="5"/>

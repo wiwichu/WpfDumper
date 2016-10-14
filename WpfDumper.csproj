@@ -100,6 +100,9 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TickerViewModel.cs" />
     <Compile Include="ViewModel\TradeViewModel.cs" />
+    <Compile Include="View\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TickerView.xaml.cs">
       <DependentUpon>TickerView.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

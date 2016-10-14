@@ -56,11 +56,13 @@ namespace WpfDumper
         private void btnRx_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId}");
-            var query = from number in Enumerable.Range(1, 1000000)
+            var query = from number in Enumerable.Range(1, 10)
                         select QueryNumber(number);
-            var observableQuery = query.ToObservable();
+            var observableQuery = 
+                query.ToObservable();
             observableQuery
                 .ObserveOn(NewThreadScheduler.Default)
+                .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(ProcessNumber, ImDone);
             //var scheduler = TestScheduler
         }
@@ -106,6 +108,48 @@ namespace WpfDumper
             }));
             Task.Delay(100).Wait();
             lock (locker) { }
+        }
+
+        private void btnLeak_Click(object sender, RoutedEventArgs e)
+        {
+            string leakString = "BIG";
+            Thread t = new Thread(() =>
+            {
+                while (true)
+                {
+                    Task.Delay(100).Wait();
+                    {
+                        leakString += leakString;
+                    }
+                }
+            });
+            t.IsBackground = true;
+            t.Start();
+        }
+
+        private void btnStackOverflow_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t = new Thread(() =>
+            {
+            OverflowStack(11.11);
+        });
+            t.IsBackground = true;
+            
+            t.Start();
+            //try
+            //{
+            //    Task.Run(() => OverflowStack(11.11));
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
+        }
+        private void OverflowStack(double dbl)
+        {
+            double d = dbl;
+            //Task.Delay(1).Wait();
+            OverflowStack(dbl);
         }
     }
     class MyObserver : IObserver<int>
