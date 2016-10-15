@@ -11,6 +11,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -56,6 +57,11 @@
             Content="StackOverflow" 
             Margin="10,11,11,10" 
             Grid.Row="2" Grid.Column="2" Click="btnStackOverflow_Click"  
+            />
+        <Button x:Name="btnHighCpu" 
+            Content="High CPU" 
+            Grid.Column="3"
+            Margin="9,10,10,10" Click="btnHighCpu_Click" 
             />
     </Grid>
 </Window>

@@ -13,6 +13,7 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.PlatformServices;
+using System.Windows.Input;
 
 namespace WpfDumper.ViewModel
 {
@@ -33,6 +34,21 @@ namespace WpfDumper.ViewModel
         public TickerViewModel()
         {
             Initialize();
+            LoadCommands();
+        }
+        private void LoadCommands()
+        {
+            SelectItemCommand = new RelayCommand(OnSelectItem, CanSelectItem);
+        }
+
+        private bool CanSelectItem(object obj)
+        {
+            return true;
+        }
+
+        private void OnSelectItem(object obj)
+        {
+            
         }
 
         private void Initialize()
@@ -95,5 +111,11 @@ namespace WpfDumper.ViewModel
                 SetProperty(ref refreshRate, value);
             }
         }
+        public ICommand SelectItemCommand
+        {
+            get;
+            set;
+        }
+
     }
 }

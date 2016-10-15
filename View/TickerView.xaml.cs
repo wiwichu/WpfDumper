@@ -34,9 +34,5 @@ namespace WpfDumper.View
             // tickViewSource.Source = [generic data source]
         }
 
-        private void tickDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

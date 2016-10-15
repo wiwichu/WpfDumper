@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfDumper.View"
         xmlns:helper="clr-namespace:WpfDumper.Helpers"
-        xmlns:Model="clr-namespace:WpfDumper.Model" x:Class="WpfDumper.View.TickerView"
+        xmlns:Model="clr-namespace:WpfDumper.Model" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" x:Class="WpfDumper.View.TickerView"
         mc:Ignorable="d"
         Title="TickerView" Height="300" Width="300" Loaded="Window_Loaded">
     <Window.Resources>
@@ -29,46 +29,48 @@
                     Minimum="1"
                     Maximum="10"
                     Interval="1"
-                    Value="{Binding Path=DataContext.RefreshRate, 
-                RelativeSource={RelativeSource AncestorType={x:Type Window}}
-                }"/>
+                    Value="{Binding DataContext.RefreshRate, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
         </StackPanel>
-           <DataGrid x:Name="tickDataGrid" 
+        <DataGrid x:Name="tickDataGrid" 
                   Grid.Row="1"
                   HorizontalScrollBarVisibility="Auto"   
                   Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" 
                   EnableRowVirtualization="True" 
                   ItemsSource="{Binding}" 
-                  RowDetailsVisibilityMode="VisibleWhenSelected" 
-                  SelectionChanged="tickDataGrid_SelectionChanged">
-                <!--<DataGrid.RowStyle>
+                  RowDetailsVisibilityMode="VisibleWhenSelected" >
+            <!--<DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{Binding RowBrush}"/>
                 </Style>
             </DataGrid.RowStyle>-->
-                <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="symbolColumn" Binding="{Binding Symbol, Mode=TwoWay}" 
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="symbolColumn" Binding="{Binding Symbol, Mode=TwoWay}" 
                                         Header="Symbol" Width="SizeToHeader"/>
-                    <DataGridTextColumn x:Name="tickValueColumn" 
+                <DataGridTextColumn x:Name="tickValueColumn" 
                                     Binding="{Binding TickValue, Mode=TwoWay}" 
                                     Header="Tick Value" 
                                     Width="SizeToHeader">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding TickDirection, Converter={StaticResource TickToBrushConverter}}"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn x:Name="timeStampColumn" Binding="{Binding TimeStamp, Mode=TwoWay}" Header="Time Stamp" Width="*"/>
-                    <!--<DataGridTemplateColumn x:Name="timeStampColumn" Header="Time Stamp" Width="SizeToHeader">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding TickDirection, Converter={StaticResource TickToBrushConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn x:Name="timeStampColumn" Binding="{Binding TimeStamp, Mode=TwoWay}" Header="Time Stamp" Width="*"/>
+                <!--<DataGridTemplateColumn x:Name="timeStampColumn" Header="Time Stamp" Width="SizeToHeader">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DatePicker SelectedDate="{Binding TimeStamp, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>-->
-                </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding DataContext.SelectItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TickerView}}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
     </Grid>
 </Window>

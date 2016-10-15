@@ -132,7 +132,7 @@ namespace WpfDumper
             Thread t = new Thread(() =>
             {
             OverflowStack(11.11);
-        });
+        },100000);
             t.IsBackground = true;
             
             t.Start();
@@ -150,6 +150,16 @@ namespace WpfDumper
             double d = dbl;
             //Task.Delay(1).Wait();
             OverflowStack(dbl);
+        }
+
+        private void btnHighCpu_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() => {
+                while(true)
+                {
+
+                }
+            });
         }
     }
     class MyObserver : IObserver<int>
