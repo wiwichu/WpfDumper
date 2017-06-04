@@ -2,24 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static System.Threading.ThreadPool;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Reactive.PlatformServices;
 using WpfDumper.ViewModel;
+using System.Collections.Concurrent;
+using WpfDumper.View;
+using System.Text.RegularExpressions;
 
 namespace WpfDumper
 {
@@ -82,7 +74,6 @@ namespace WpfDumper
 
         private void btnValidation_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void btnEventHang_Click(object sender, RoutedEventArgs e)
@@ -109,17 +100,23 @@ namespace WpfDumper
             Task.Delay(100).Wait();
             lock (locker) { }
         }
-
+        private ConcurrentBag<string> sBag = new ConcurrentBag<string>();
+        private static List<string> sList = new List<string>(); 
         private void btnLeak_Click(object sender, RoutedEventArgs e)
         {
             string leakString = "BIG";
             Thread t = new Thread(() =>
             {
+
                 while (true)
                 {
-                    Task.Delay(100).Wait();
+                    Task.Delay(10).Wait();
                     {
-                        leakString += leakString;
+                        lock (sList)
+                        {
+                            sBag.Add(DateTime.Now.ToString());
+                        }
+                        //leakString += leakString;
                     }
                 }
             });
@@ -159,6 +156,34 @@ namespace WpfDumper
                 {
 
                 }
+            });
+        }
+
+        private void btnWeakEventTableLeak_Click(object sender, RoutedEventArgs e)
+        {
+            var view = new WeakEventTableLeakView();
+            view.Show();
+        }
+
+        private void btnGCCollect_Click(object sender, RoutedEventArgs e)
+        {
+            GC.Collect();
+        }
+
+        private void Synchronous_Click(object sender, RoutedEventArgs e)
+        {
+            textBlock.Text = "Calculating Sync.";
+            Thread.Sleep(20000);
+            textBlock.Text = "Ready";
+        }
+
+        private void Async_Click(object sender, RoutedEventArgs e)
+        {
+            textBlock.Text = "Calculating Async.";
+            Task.Run(() => {
+            Thread.Sleep(20000);
+                Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(()=>textBlock.Text="Ready"));
             });
         }
     }

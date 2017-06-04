@@ -9,11 +9,12 @@ using WpfDumper.Services;
 
 namespace WpfDumper.ViewModel
 {
-    public class MainWindowViewModel : NotifyPropertyChanged
+    public class MainWindowViewModel //: NotifyPropertyChanged
     {
         public MainWindowViewModel()
         {
             LoadCommands();
+            BindTest = "Initial Value";
         }
 
         private void LoadCommands()
@@ -53,6 +54,6 @@ namespace WpfDumper.ViewModel
             get;
             set;
         }
-
+        public string BindTest { get; set; }
     }
 }

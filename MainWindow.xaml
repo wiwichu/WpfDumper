@@ -17,6 +17,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Button x:Name="btnException" 
                 Content="Exception in Task" 
@@ -63,5 +64,18 @@
             Grid.Column="3"
             Margin="9,10,10,10" Click="btnHighCpu_Click" 
             />
+        <Button x:Name="btnWeakEventTableLeak" 
+                     Grid.Column="3" Grid.Row="1"
+            Content="Weak Event Table Leak" 
+            Margin="9,10,10,10" Click="btnWeakEventTableLeak_Click"  
+            />
+        <Button x:Name="btnGCCollect" 
+                     Grid.Column="3" Grid.Row="2"
+            Content="GC Collect" 
+            Margin="9,10,10,10" Click="btnGCCollect_Click"   
+            />
+        <Button x:Name="Synchronous" Content="Synchronous" Grid.Row="3" Click="Synchronous_Click"/>
+        <Button x:Name="Async" Content="Async" Grid.Column="1" Grid.Row="3" Click="Async_Click"/>
+        <TextBlock x:Name="textBlock" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap" Text="Ready"/>
     </Grid>
 </Window>
